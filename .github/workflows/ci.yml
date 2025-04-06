@@ -31,7 +31,7 @@ jobs:
 
     - name: Fix react-scripts permission
       working-directory: ./client
-      run: chmod +x node_modules/.bin/react-scripts
+      run: chmod 775 node_modules/.bin/react-scripts
 
     - name: Build React App (safe)
       working-directory: ./client
