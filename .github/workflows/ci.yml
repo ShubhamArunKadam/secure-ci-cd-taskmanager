@@ -29,14 +29,13 @@ jobs:
       working-directory: ./server
       run: npm install
 
-    - name: Install Client Dependencies
+    - name: Fix react-scripts permission
       working-directory: ./client
-      run: npm install --legacy-peer-deps
+      run: chmod +x node_modules/.bin/react-scripts
 
-    - name: Build React App
+    - name: Build React App (safe)
       working-directory: ./client
       run: ./node_modules/.bin/react-scripts build
-
 
     - name: Lint Client Code (SAST)
       working-directory: ./client
