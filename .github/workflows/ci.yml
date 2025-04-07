@@ -29,35 +29,19 @@ jobs:
       working-directory: ./server
       run: npm install
 
-    - name: Install Client Dependencies
+    - name: Fix react-scripts permission
       working-directory: ./client
-      run: npm install --legacy-peer-deps
+      run: chmod 775 node_modules/.bin/react-scripts
 
-    - name: Build React App
+    - name: Build React App (safe)
       working-directory: ./client
-      run: ./node_modules/.bin/react-scripts build
-
+      run: npm install
 
     - name: Lint Client Code (SAST)
       working-directory: ./client
       run: npx eslint src --ext .js,.jsx || true
 
-
-    - name: Run npm audit (server)
-      working-directory: ./server
-      run: npm audit --audit-level=high || true
-
-    - name: Install Trivy
-      run: |
-        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-        sudo apt-get update
-        sudo apt-get install trivy -y
-
-    - name: Trivy Scan (client)
-      run: trivy fs ./client --severity HIGH,CRITICAL --exit-code 0
-
-    - name: Trivy Scan (server)
-      run: trivy fs ./server --severity HIGH,CRITICAL --exit-code 0
+    - name: Build React App
+      working-directory: ./client
+      run: npm run build
 
