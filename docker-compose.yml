@@ -1,20 +1,12 @@
 version: '3'
-services:
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
 
+services:
   backend:
     build: ./server
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://mongo:27017/taskdb
-    depends_on:
-      - mongo
+      - MONGO_URI=mongodb+srv://Shubhi:Nims%4077@cluster0.7hopfg9.mongodb.net/taskdb?retryWrites=true&w=majority&appName=Cluster0
 
   frontend:
     build: ./client
@@ -22,6 +14,3 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-
-volumes:
-  mongo-data:
