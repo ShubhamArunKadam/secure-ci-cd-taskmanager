@@ -10,12 +10,12 @@ function Home() {
   }, []);
 
   const fetchTasks = async () => {
-    const res = await axios.get("/api/tasks");
+    const res = await axios.get("http://localhost:5000/api/tasks");
     setTasks(res.data);
   };
 
   const addTask = async () => {
-    await axios.post("/api/tasks", { title });
+    await axios.post("http://localhost:5000/api/tasks", { title });
     setTitle("");
     fetchTasks();
   };
